@@ -75,6 +75,24 @@ async function run(){
       })
 
 
+
+      //fourth table api is create here: 
+      app.get('/fourthTableData' ,async(req,res)=>{
+         const key = req.query.key; 
+         const order = req.query.order === "true"  ? 1 : -1; 
+         const query = {}; 
+         let sorted = {}; 
+         if(key ==="city"){
+            sorted = {city: order}; 
+         }else if(key === 'role'){
+             sorted  = {role: order}; 
+         }
+
+         const tableData = await tableDataCollection.find(query).project({person:1, city:1, joiningDate:1, role:1}).sort(sorted).toArray(); 
+         res.send(tableData); 
+      })
+
+
       
       /*
 
