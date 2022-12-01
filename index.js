@@ -20,7 +20,7 @@ async function run(){
       try{
          const tableDataCollection  = client.db('table').collection('tableData'); 
 
-
+      // first table api is here: 
       app.get('/firstTableData', async(req, res) => { 
          const key = req.query.key; 
          const order = req.query.order === "true" ? 1 : -1; 
@@ -36,11 +36,44 @@ async function run(){
          }else if(key === 'role'){
             sorted = {role: order}
          }
-         console.log(order); 
+
          const query = {}; 
          const tableData = await tableDataCollection.find(query).sort(sorted).toArray(); 
          res.send(tableData); 
       })
+
+      //second table api is here: 
+      app.get('/secondTableData', async(req, res)=>{
+         const key = req.query.key; 
+         const order = req.query.order === "true" ? 1 : -1; 
+         let sorted = {_id: -1}; 
+         if(key === "name"){
+             sorted = {"person.name": order}
+         }
+
+         const query = {}; 
+         const tableData = await tableDataCollection.find(query).project({person: 1, email: 1, role: 1}).sort(sorted).toArray(); 
+         res.send(tableData); 
+      })
+
+
+      // third table api is created here: 
+      app.get('/thirdTableData', async(req,res)=>{
+         const key = req.query.key; 
+         const order = req.query.order === "true" ? 1 : -1; 
+         const query = {}; 
+         let sorted = {}; 
+         if(key === 'joiningDate'){
+            sorted = {joiningDate: order}; 
+         }else if(key=== 'role'){
+            sorted = {role: order}; 
+         }
+
+         const tableData = await tableDataCollection.find(query).project({email: 1, joiningDate: 1, role: 1}).sort(sorted).toArray(); 
+         res.send(tableData);
+
+      })
+
 
       
       /*
