@@ -22,8 +22,23 @@ async function run(){
 
 
       app.get('/firstTableData', async(req, res) => { 
+         const key = req.query.key; 
+         const order = req.query.order === "true" ? 1 : -1; 
+         let sorted = {_id: -1}; 
+         if(key === "name"){
+             sorted = {"person.name": order}
+         }else if(key === 'city'){
+            sorted = {city: order}; 
+         }else if(key === 'email'){
+            sorted = {email: order}; 
+         }else if(key === 'joiningDate'){
+            sorted = {joiningDate :order}
+         }else if(key === 'role'){
+            sorted = {role: order}
+         }
+         console.log(order); 
          const query = {}; 
-         const tableData = await tableDataCollection.find(query).toArray(); 
+         const tableData = await tableDataCollection.find(query).sort(sorted).toArray(); 
          res.send(tableData); 
       })
 
