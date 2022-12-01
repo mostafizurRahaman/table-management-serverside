@@ -19,14 +19,30 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
       try{
          const tableDataCollection  = client.db('table').collection('tableData'); 
-         
 
-      app.get('/tableData', async(req, res) => { 
+
+      app.get('/firstTableData', async(req, res) => { 
          const query = {}; 
          const tableData = await tableDataCollection.find(query).toArray(); 
          res.send(tableData); 
       })
-         
+
+      
+      /*
+
+      /* This api  i used for updated avatar image link: 
+      app.patch('/firstTableData', async(req, res)=>{
+         const query = {}; 
+         const updatedDoc = {
+            $set:{
+               "person.avatar": 'https://i.ibb.co/gFywz4Y/unsplash-r-DEOVt-E7v-Os.png'
+            }
+         }
+          const result = await tableDataCollection.updateMany(query, updatedDoc); 
+          res.send(result);
+      })
+
+      */
 
       }finally{
 
