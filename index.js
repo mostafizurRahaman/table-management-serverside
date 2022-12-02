@@ -35,7 +35,10 @@ async function run(){
             sorted = {joiningDate :order}
          }else if(key === 'role'){
             sorted = {role: order}
+         }else{
+            sorted = {}; 
          }
+         console.log(sorted);
 
          const query = {}; 
          const tableData = await tableDataCollection.find(query).sort(sorted).toArray(); 
@@ -49,6 +52,8 @@ async function run(){
          let sorted = {_id: -1}; 
          if(key === "name"){
              sorted = {"person.name": order}
+         }else{
+            sorted = {}; 
          }
 
          const query = {}; 
@@ -67,6 +72,8 @@ async function run(){
             sorted = {joiningDate: order}; 
          }else if(key=== 'role'){
             sorted = {role: order}; 
+         }else{
+            sorted = {}; 
          }
 
          const tableData = await tableDataCollection.find(query).project({email: 1, joiningDate: 1, role: 1}).sort(sorted).toArray(); 
@@ -86,11 +93,14 @@ async function run(){
             sorted = {city: order}; 
          }else if(key === 'role'){
              sorted  = {role: order}; 
+         }else{
+            sorted = {}; 
          }
 
          const tableData = await tableDataCollection.find(query).project({person:1, city:1, joiningDate:1, role:1}).sort(sorted).toArray(); 
          res.send(tableData); 
       })
+      
 
 
       
